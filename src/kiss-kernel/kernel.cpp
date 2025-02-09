@@ -1,5 +1,4 @@
-#include <kiss-base/base.h>
-#include <kiss-base/libc.h>
+import Kiss.Base;
 
 extern char __bss[], __bss_end[], __stack_top[];
 
