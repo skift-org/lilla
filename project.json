@@ -3,5 +3,11 @@
     "id": "kiss-org/kiss",
     "version": "v0.1.0",
     "type": "project",
-    "description": "Light as a kiss"
+    "description": "Light as a kiss",
+    "extern": {
+        "cute-engineering/cat": {
+            "git": "https://github.com/cute-engineering/cat.git",
+            "tag": "v0.8.0"
+        }
+    }
 }
