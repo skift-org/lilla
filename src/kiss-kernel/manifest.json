@@ -1,0 +1,9 @@
+{
+    "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.component.v1",
+    "id": "kiss-kernel",
+    "description": "The kiss kernel",
+    "type": "exe",
+    "requires": [
+        "kiss-base"
+    ]
+}

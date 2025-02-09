@@ -1,0 +1,7 @@
+{
+    "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.project.v1",
+    "id": "kiss-org/kiss",
+    "version": "v0.1.0",
+    "type": "project",
+    "description": "Light as a kiss"
+}
