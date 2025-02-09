@@ -4,6 +4,7 @@
     "description": "The kiss kernel",
     "type": "exe",
     "requires": [
-        "kiss-base"
+        "kiss-base",
+        "kiss-sbi"
     ]
 }
