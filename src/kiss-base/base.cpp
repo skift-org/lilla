@@ -14,4 +14,7 @@ export using i32 = signed int;
 export using i64 = signed long long;
 export using usize = __SIZE_TYPE__;
 
+export using paddr = u32;
+export using vadrr = u32;
+
 } // namespace Kiss

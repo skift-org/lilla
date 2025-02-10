@@ -20,10 +20,10 @@ export Ret call(long arg0, long arg1, long arg2, long arg3, long arg4, long arg5
     register long a7 __asm__("a7") = eid;
 
     __asm__ __volatile__("ecall"
-                         : "=r"(a0), "=r"(a1)
-                         : "r"(a0), "r"(a1), "r"(a2), "r"(a3), "r"(a4), "r"(a5),
-                           "r"(a6), "r"(a7)
-                         : "memory");
+        : "=r"(a0), "=r"(a1)
+        : "r"(a0), "r"(a1), "r"(a2), "r"(a3), "r"(a4), "r"(a5),
+        "r"(a6), "r"(a7)
+        : "memory");
     return (Ret){.error = a0, .value = a1};
 }
 
@@ -46,12 +46,12 @@ export void consolePuti(long i, usize base) {
 
     char* p = buf.begin();
     while (i > 0) {
-        usize digit = i % base;
+        const usize digit = i % base;
         i /= base;
         if (digit < 10)
-            *p++ = digit + '0';
+            *p++ = '0' + digit;
         else
-            *p++ = digit + 'a' - 10;
+            *p++ = 'a' + (digit - 10);
     }
 
     for (; p >= buf.begin(); --p) {
@@ -59,6 +59,59 @@ export void consolePuti(long i, usize base) {
     }
 }
 
+void consoleFormat(long i, char modifier) {
+    switch (modifier) {
+    case 'h':
+        consolePuti(i, 16);
+        break;
+    case 'd':
+        consolePuti(i, 10);
+        break;
+    case 'c':
+        consolePutchar(i);
+        break;
+    }
+}
+
+void consoleFormat(String i, char modifier) {
+    switch (modifier) {
+    case 's':
+        consolePuts(i);
+        break;
+    }
+}
+
+void consolePrintfImpl(char const* begin, char const* end) {
+    for (; begin < end; ++begin) {
+        consolePutchar(*begin);
+    }
+}
+
+template <typename T, typename... Args>
+void consolePrintfImpl(char const* begin, char const* end, T value, Args... args) {
+
+    for (; begin < end; ++begin) {
+        if (*begin == '%' && begin + 1 < end) {
+            switch (*++begin) {
+            case 'd':
+            case 'h':
+            case 's':
+            case 'c':
+                consoleFormat(value, *begin);
+                consolePrintfImpl(++begin, end, args...);
+                return;
+            default:
+                consolePutchar('%');
+            }
+        }
+        consolePutchar(*begin);
+    }
+}
+
+export template <typename... Args>
+void consolePrintln(String str, Args... args) {
+    consolePrintfImpl(str.begin(), str.end(), args...);
+}
 
 
 } // namespace Kiss::SBI

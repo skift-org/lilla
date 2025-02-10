@@ -24,6 +24,20 @@ public:
     constexpr explicit String(char const* str, usize len)
         : str(str), len(len) {}
 
+    constexpr bool operator==(const String& other) const {
+        if (len != other.len)
+            return false;
+        auto* p1 = this->begin();
+        auto* p2 = other.begin();
+        while (p1 != this->end() && p2 != other.end()) {
+            if (*p1 != *p2)
+                return false;
+            ++p1;
+            ++p2;
+        }
+        return true;
+    }
+
     [[nodiscard]] const char* begin() const {
         return str;
     }
