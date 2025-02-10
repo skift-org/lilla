@@ -18,6 +18,9 @@ private:
     usize len;
 
 public:
+    constexpr String()
+        : str(nullptr), len(0) {}
+
     constexpr explicit String(char const* str)
         : str(str), len(stringLength(str)) {}
 

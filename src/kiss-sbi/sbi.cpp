@@ -88,7 +88,7 @@ void consolePrintfImpl(char const* begin, char const* end) {
 }
 
 template <typename T, typename... Args>
-void consolePrintfImpl(char const* begin, char const* end, T value, Args... args) {
+void consolePrintfImpl(char const* begin, char const* end, T const& value, Args const&... args) {
 
     for (; begin < end; ++begin) {
         if (*begin == '%' && begin + 1 < end) {
@@ -109,7 +109,7 @@ void consolePrintfImpl(char const* begin, char const* end, T value, Args... args
 }
 
 export template <typename... Args>
-void consolePrintln(String str, Args... args) {
+void consolePrintf(String str, Args const&... args) {
     consolePrintfImpl(str.begin(), str.end(), args...);
 }
 
