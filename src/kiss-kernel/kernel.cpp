@@ -14,7 +14,7 @@ void entry() {
 
     csrw(
         Asm::Csr::STVEC,
-        reinterpret_cast<Kiss::usize>(_kexception)
+        reinterpret_cast<usize>(_kexception)
     );
 
     Asm::unimp();

@@ -47,7 +47,7 @@ export extern "C" void _kissHandleTrap(TrapFrame* f) {
     u32 stval = csrr(Asm::Csr::STVAL);
     u32 userPc = csrr(Asm::Csr::SEPC);
 
-    panic("unexpected trap scause=%h, stval=%h, sepc=%h\n"s, scause, stval, userPc, reinterpret_cast<paddr>(f));
+    panic("unexpected trap scause=0x%H, stval=0x%H, sepc=0x%H\n"s, scause, stval, userPc, reinterpret_cast<paddr>(f));
 }
 
 } // namespace Kiss::Kernel

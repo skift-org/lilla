@@ -20,10 +20,10 @@ export Ret call(long arg0, long arg1, long arg2, long arg3, long arg4, long arg5
     register long a7 __asm__("a7") = eid;
 
     __asm__ __volatile__("ecall"
-        : "=r"(a0), "=r"(a1)
-        : "r"(a0), "r"(a1), "r"(a2), "r"(a3), "r"(a4), "r"(a5),
-        "r"(a6), "r"(a7)
-        : "memory");
+                         : "=r"(a0), "=r"(a1)
+                         : "r"(a0), "r"(a1), "r"(a2), "r"(a3), "r"(a4), "r"(a5),
+                           "r"(a6), "r"(a7)
+                         : "memory");
     return (Ret){.error = a0, .value = a1};
 }
 
@@ -37,16 +37,13 @@ export void consolePuts(String str) {
     }
 }
 
-export void consolePuti(long i, usize base) {
+export void consolePutu(unsigned long i, usize base) {
     Array<char, sizeof(i) * __CHAR_BIT__> buf;
-    if (i < 0) {
-        consolePutchar('-');
-        i = -i;
-    }
-
     char* p = buf.begin();
+    if (!i)
+        *p++ = '0';
     while (i > 0) {
-        const usize digit = i % base;
+        usize const digit = i % base;
         i /= base;
         if (digit < 10)
             *p++ = '0' + digit;
@@ -59,6 +56,15 @@ export void consolePuti(long i, usize base) {
     }
 }
 
+export void consolePuti(long i, usize base) {
+    if (i < 0) {
+        consolePutchar('-');
+        i = -i;
+    }
+
+    consolePutu(i, base);
+}
+
 void consoleFormat(long i, char modifier) {
     switch (modifier) {
     case 'h':
@@ -66,6 +72,12 @@ void consoleFormat(long i, char modifier) {
         break;
     case 'd':
         consolePuti(i, 10);
+        break;
+    case 'H':
+        consolePutu(i, 16);
+        break;
+    case 'D':
+        consolePutu(i, 10);
         break;
     case 'c':
         consolePutchar(i);
@@ -95,6 +107,8 @@ void consolePrintfImpl(char const* begin, char const* end, T const& value, Args 
             switch (*++begin) {
             case 'd':
             case 'h':
+            case 'D':
+            case 'H':
             case 's':
             case 'c':
                 consoleFormat(value, *begin);
@@ -112,6 +126,5 @@ export template <typename... Args>
 void consolePrintf(String str, Args const&... args) {
     consolePrintfImpl(str.begin(), str.end(), args...);
 }
-
 
 } // namespace Kiss::SBI
