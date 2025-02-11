@@ -51,11 +51,11 @@ public:
 
 };
 
+} // namespace Kiss
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wuser-defined-literals"
-export constexpr String operator""s(char const* str, usize len) {
-    return String(str, len);
+export constexpr Kiss::String operator""s(char const* str, Kiss::usize len) {
+    return Kiss::String(str, len);
 }
 #pragma clang diagnostic pop
-
-} // namespace Kiss

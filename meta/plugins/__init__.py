@@ -24,6 +24,7 @@ def bootCmd(args : model.RegistryArgs) -> None:
         "-nographic",
         "-serial", "mon:stdio",
         "--no-reboot",
+        "-d", "int",
         "-kernel", str(kernelProduct.path)
     ]
 
