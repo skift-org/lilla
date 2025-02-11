@@ -14,9 +14,10 @@ export enum struct Csr : usize {
 export usize csrr(Csr csr) {
     usize tmp;
     switch (csr) {
-#define CSR(NUM, name, NAME) \
-    case Csr::NAME:          \
-        __asm__ __volatile__("csrr %0, " #name : "=r"(tmp));
+#define CSR(NUM, name, NAME)                                 \
+    case Csr::NAME:                                          \
+        __asm__ __volatile__("csrr %0, " #name : "=r"(tmp)); \
+        break;
 #include "defs/csr.inc"
 
 #undef CSR
@@ -26,11 +27,11 @@ export usize csrr(Csr csr) {
 
 export void csrw(Csr csr, usize val) {
     switch (csr) {
-#define CSR(NUM, name, NAME) \
-    case Csr::NAME:          \
-        __asm__ __volatile__("csrw " #name ", %0" ::"r"(val));
+#define CSR(NUM, name, NAME)                                   \
+    case Csr::NAME:                                            \
+        __asm__ __volatile__("csrw " #name ", %0" ::"r"(val)); \
+        break;
 #include "defs/csr.inc"
-
 #undef CSR
     };
 }

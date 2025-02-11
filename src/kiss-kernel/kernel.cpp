@@ -5,16 +5,26 @@ import Kiss.SBI;
 import :panic;
 import :exception;
 
-extern "C" char __bss[], __bss_end[], __stack_top[];
+extern "C" char __bss[], __bss_end[];
 
-extern "C" void _kissEntry(void) {
-    //memset(__bss, 0, reinterpret_cast<Kiss::usize>(__bss_end) - reinterpret_cast<Kiss::usize>(__bss));
-    Kiss::SBI::consolePrintf("Bruh2\n"s);
+namespace Kiss::Kernel {
+
+void entry() {
+    SBI::consolePrintf("Bruh2\n"s);
+
     csrw(
-        Kiss::Kernel::Asm::Csr::STVEC,
-        reinterpret_cast<Kiss::usize>(Kiss::Kernel::_kexception)
+        Asm::Csr::STVEC,
+        reinterpret_cast<Kiss::usize>(_kexception)
     );
-    Kiss::Kernel::Asm::unimp();
 
-    Kiss::Kernel::panic("Yipee"s);
+    Asm::unimp();
+
+    panic("Yipee"s);
+}
+
+} // namespace Kiss::Kernel
+
+extern "C" void _kissEntry() {
+    memset(__bss, 0, reinterpret_cast<Kiss::usize>(__bss_end) - reinterpret_cast<Kiss::usize>(__bss));
+    Kiss::Kernel::entry();
 }

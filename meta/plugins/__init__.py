@@ -2,16 +2,17 @@ from cutekit import ensure
 
 ensure((0, 8, 0))
 
-from cutekit import  builder, cli, shell, model
+from cutekit import builder, cli, shell, model
+
 
 @cli.command(None, "boot", "Boot the kernel")
-def bootCmd(args : model.RegistryArgs) -> None:
+def bootCmd(args: model.RegistryArgs) -> None:
     registry = model.Registry.use(args)
 
-    target = registry.lookup('kernel-riscv32', model.Target)
+    target = registry.lookup("kernel-riscv32", model.Target)
     assert target is not None
 
-    component = registry.lookup('kiss-kernel', model.Component)
+    component = registry.lookup("kiss-kernel", model.Component)
     assert component is not None
 
     scope = builder.TargetScope(registry, target)
@@ -19,13 +20,17 @@ def bootCmd(args : model.RegistryArgs) -> None:
 
     qemu = [
         "qemu-system-riscv32",
-        "-machine", "virt",
-        "-bios", "default",
+        "-machine",
+        "virt",
+        "-bios",
+        "default",
         "-nographic",
-        "-serial", "mon:stdio",
+        "-serial",
+        "mon:stdio",
         "--no-reboot",
-        "-d", "int",
-        "-kernel", str(kernelProduct.path)
+        # "-d", "int",
+        "-kernel",
+        str(kernelProduct.path),
     ]
 
     shell.exec(*qemu)

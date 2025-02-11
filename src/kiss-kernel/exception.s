@@ -1,9 +1,9 @@
 .section .text
 .global _kissHandleTrap
 .type _kissHandleTrap, @function
-.global _kexceptionnnn
+.global _kexception
 .align 4
-_kexceptionnnn:
+_kexception:
     csrw sscratch, sp
     addi sp, sp, -4 * 31
     sw ra,  4 * 0(sp)
