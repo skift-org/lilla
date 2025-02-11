@@ -1,4 +1,4 @@
-ENTRY(boot)
+ENTRY(_kstart)
 
 SECTIONS {
     . = 0x80200000;

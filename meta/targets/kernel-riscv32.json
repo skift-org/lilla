@@ -38,7 +38,7 @@
                 "-Wl,-Tmeta/targets/kernel-riscv32.ld"
             ],
             "files": [
-                "meta/targets/kernel-x86_64.ld"
+                "meta/targets/kernel-riscv32.ld"
             ]
         },
         "ar": {

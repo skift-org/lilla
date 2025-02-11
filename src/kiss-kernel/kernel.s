@@ -6,6 +6,8 @@ __stack_bottom:
 .section .text.boot
 .global _kissEntry
 .type _kissEntry, @function
+
+.global _kstart
 _kstart:
     mv ra, zero
     mv fp, zero
