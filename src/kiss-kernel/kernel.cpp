@@ -10,7 +10,7 @@ extern "C" char __bss[], __bss_end[];
 namespace Kiss::Kernel {
 
 void entry() {
-    SBI::consolePrintf("Bruh2\n"s);
+    SBI::consolePrintf("💋 Kiss Kernel v0.0.1\n"s);
 
     csrw(
         Asm::Csr::STVEC,

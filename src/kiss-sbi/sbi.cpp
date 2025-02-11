@@ -65,7 +65,7 @@ export void consolePuti(long i, usize base) {
     consolePutu(i, base);
 }
 
-void consoleFormat(long i, char modifier) {
+void consoleFormat(Signed auto i, char modifier) {
     switch (modifier) {
     case 'h':
         consolePuti(i, 16);
@@ -73,10 +73,18 @@ void consoleFormat(long i, char modifier) {
     case 'd':
         consolePuti(i, 10);
         break;
-    case 'H':
+    case 'c':
+        consolePutchar(i);
+        break;
+    }
+}
+
+void consoleFormat(Unsigned auto i, char modifier) {
+    switch (modifier) {
+    case 'h':
         consolePutu(i, 16);
         break;
-    case 'D':
+    case 'd':
         consolePutu(i, 10);
         break;
     case 'c':
@@ -101,19 +109,18 @@ void consolePrintfImpl(char const* begin, char const* end) {
 
 template <typename T, typename... Args>
 void consolePrintfImpl(char const* begin, char const* end, T const& value, Args const&... args) {
-
     for (; begin < end; ++begin) {
         if (*begin == '%' && begin + 1 < end) {
             switch (*++begin) {
             case 'd':
             case 'h':
-            case 'D':
-            case 'H':
             case 's':
             case 'c':
                 consoleFormat(value, *begin);
                 consolePrintfImpl(++begin, end, args...);
                 return;
+
+            case '%':
             default:
                 consolePutchar('%');
             }
