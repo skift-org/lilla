@@ -4,7 +4,7 @@
 .global _kexception
 .align 4
 _kexception:
-    csrw sscratch, sp
+    csrrw sp, sscratch, sp
     addi sp, sp, -4 * 31
     sw ra,  4 * 0(sp)
     sw gp,  4 * 1(sp)
@@ -38,7 +38,10 @@ _kexception:
     sw s11, 4 * 29(sp)
 
     csrr a0, sscratch
-    sw a0, 4 * 30(sp)
+    sw a0,  4 * 30(sp)
+
+    addi a0, sp, 4 * 31
+    csrw sscratch, a0
 
     mv a0, sp
     call _kissHandleTrap

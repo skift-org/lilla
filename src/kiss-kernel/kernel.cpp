@@ -4,10 +4,39 @@ import Kiss.Base;
 import Kiss.SBI;
 import :panic;
 import :exception;
+import :memory;
+import :process;
 
 extern "C" char __bss[], __bss_end[];
 
 namespace Kiss::Kernel {
+struct Process;
+
+void delay(void) {
+    for (int i = 0; i < 30000000; i++)
+        __asm__ __volatile__("nop"); // do nothing
+}
+
+Process* procA;
+Process* procB;
+
+void procAEntry() {
+    SBI::consolePrintf("starting process A\n"s);
+    while (true) {
+        SBI::consolePutchar('A');
+        yield();
+        delay();
+    }
+}
+
+void procBEntry() {
+    SBI::consolePrintf("starting process B\n"s);
+    while (true) {
+        SBI::consolePutchar('B');
+        yield();
+        delay();
+    }
+}
 
 void entry() {
     SBI::consolePrintf("💋 Kiss Kernel v0.0.1\n"s);
@@ -17,9 +46,13 @@ void entry() {
         reinterpret_cast<usize>(_kexception)
     );
 
-    Asm::unimp();
+    initProcess();
 
-    panic("Yipee"s);
+    procA = createProcess(reinterpret_cast<u32>(procAEntry));
+    procB = createProcess(reinterpret_cast<u32>(procBEntry));
+    yield();
+
+    panic("unreachaeble"s);
 }
 
 } // namespace Kiss::Kernel
