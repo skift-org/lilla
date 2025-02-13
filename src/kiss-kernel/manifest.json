@@ -3,6 +3,11 @@
     "id": "kiss-kernel",
     "description": "The kiss kernel",
     "type": "exe",
+    "enableIf" : {
+        "sys": [
+            "kernel"
+        ]
+    },
     "requires": [
         "kiss-base",
         "kiss-sbi"
