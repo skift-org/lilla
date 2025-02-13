@@ -18,7 +18,7 @@ export template <typename... Args>
     SBI::consolePrintf("\n\nPANIC !\n%s:%d:%d: (%s) "s, msg.loc.file, msg.loc.line, msg.loc.column, msg.loc.func);
     SBI::consolePrintf(msg.fmt, args...);
     for (;;) {
-        Asm::wfi();
+        Riscv32::wfi();
     }
 }
 

@@ -2,8 +2,12 @@ export module Kiss.Kernel:process;
 
 import Kiss.Base;
 import :panic;
+import :riscv32;
+import :memory;
 
 namespace Kiss::Kernel {
+
+extern "C" char __kernel_base[], __free_ram_end[];
 
 constexpr u32 PROCS_MAX = 8;
 
@@ -19,6 +23,7 @@ export struct Process {
     i32 pid;
     ProcessState state;
     vaddr sp;
+    u32* pageTable;
     u32 stack[8192];
 };
 
@@ -55,15 +60,22 @@ Process* createProcess(u32 pc) {
     *--sp = 0;  // s0
     *--sp = pc; // ra
 
+    auto pageTable = reinterpret_cast<u32*>(allocPages(1));
+    SBI::consolePrintf("Alloc page 0x%h for process %d\n"s, reinterpret_cast<u32>(pageTable), i+1);
+    for (paddr pAddr = reinterpret_cast<paddr>(__kernel_base);
+         pAddr < reinterpret_cast<paddr>(__free_ram_end); pAddr += PAGE_SIZE)
+        mapPage(pageTable, pAddr, pAddr, Page::R | Page::W | Page::X);
+
     // Initialize fields.
     proc->pid = i + 1;
     proc->state = PROC_RUNNABLE;
     proc->sp = reinterpret_cast<vaddr>(sp);
+    proc->pageTable = pageTable;
     return proc;
 }
 
-static Process* currentProc;
-static Process* idleProc;
+static Process* currentProc = nullptr;
+static Process* idleProc = nullptr;
 
 export void yield() {
     // Search for a runnable process
@@ -79,13 +91,10 @@ export void yield() {
     // If there's no runnable process other than the current one, return and continue processing
     if (next == currentProc)
         return;
-
-    __asm__ __volatile__(
-        "csrw sscratch, %[sscratch]\n"
-        :
-        : [sscratch] "r" (reinterpret_cast<u32>(&next->stack[sizeof(next->stack)]))
-    );
-
+    Riscv32::sfenceVma();
+    csrw(Riscv32::Csr::SATP, SATP_SV32 | reinterpret_cast<u32>(next->pageTable) / PAGE_SIZE);
+    Riscv32::sfenceVma();
+    csrw(Riscv32::Csr::SSCRATCH, reinterpret_cast<u32>(&next->stack[sizeof(next->stack)]));
 
     // Context switch
     Process* prev = currentProc;

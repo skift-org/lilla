@@ -42,7 +42,7 @@ void entry() {
     SBI::consolePrintf("💋 Kiss Kernel v0.0.1\n"s);
 
     csrw(
-        Asm::Csr::STVEC,
+        Riscv32::Csr::STVEC,
         reinterpret_cast<usize>(_kexception)
     );
 

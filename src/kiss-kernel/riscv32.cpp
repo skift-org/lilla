@@ -2,7 +2,7 @@ export module Kiss.Kernel:riscv32;
 
 import Kiss.Base;
 
-namespace Kiss::Kernel::Asm {
+namespace Kiss::Kernel::Riscv32 {
 
 export enum struct Csr : usize {
 #define CSR(NUM, _, NAME) NAME = NUM,
@@ -43,5 +43,7 @@ export void wfi() { __asm__ __volatile__("wfi"); }
 export void di() { __asm__ __volatile__("csrci mstatus, 8"); }
 
 export void ei() { __asm__ __volatile__("csrsi mstatus, 8"); }
+
+export void sfenceVma() { __asm__ __volatile__("sfence.vma"); }
 
 } // namespace Kiss::Kernel::Asm

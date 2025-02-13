@@ -43,9 +43,9 @@ struct [[gnu::packed]] TrapFrame {
 export extern "C" void _kexception();
 
 export extern "C" void _kissHandleTrap(TrapFrame* f) {
-    u32 scause = csrr(Asm::Csr::SCAUSE);
-    u32 stval = csrr(Asm::Csr::STVAL);
-    u32 userPc = csrr(Asm::Csr::SEPC);
+    u32 scause = csrr(Riscv32::Csr::SCAUSE);
+    u32 stval = csrr(Riscv32::Csr::STVAL);
+    u32 userPc = csrr(Riscv32::Csr::SEPC);
 
     panic("unexpected trap scause=0x%h, stval=0x%h, sepc=0x%h\n"s, scause, stval, userPc, reinterpret_cast<paddr>(f));
 }
