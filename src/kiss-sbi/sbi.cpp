@@ -1,6 +1,8 @@
-export module Kiss.SBI:sbi;
+module;
 
-import Kiss.Base;
+#include <karm-base/string.h>
+
+export module Kiss.SBI:sbi;
 
 namespace Kiss::SBI {
 
@@ -31,107 +33,10 @@ export Ret consolePutchar(int ch) {
     return call(ch, 0, 0, 0, 0, 0, 0, 1);
 }
 
-export void consolePuts(String str) {
+export void consolePuts(Str str) {
     for (char const c : str) {
         consolePutchar(c);
     }
-}
-
-export void consolePutu(unsigned long i, usize base) {
-    Array<char, sizeof(i) * __CHAR_BIT__> buf;
-    char* p = buf.begin();
-    if (!i)
-        *p++ = '0';
-    while (i > 0) {
-        usize const digit = i % base;
-        i /= base;
-        if (digit < 10)
-            *p++ = '0' + digit;
-        else
-            *p++ = 'a' + (digit - 10);
-    }
-
-    for (; p >= buf.begin(); --p) {
-        consolePutchar(*p);
-    }
-}
-
-export void consolePuti(long i, usize base) {
-    if (i < 0) {
-        consolePutchar('-');
-        i = -i;
-    }
-
-    consolePutu(i, base);
-}
-
-void consoleFormat(Signed auto i, char modifier) {
-    switch (modifier) {
-    case 'h':
-        consolePuti(i, 16);
-        break;
-    case 'd':
-        consolePuti(i, 10);
-        break;
-    case 'c':
-        consolePutchar(i);
-        break;
-    }
-}
-
-void consoleFormat(Unsigned auto i, char modifier) {
-    switch (modifier) {
-    case 'h':
-        consolePutu(i, 16);
-        break;
-    case 'd':
-        consolePutu(i, 10);
-        break;
-    case 'c':
-        consolePutchar(i);
-        break;
-    }
-}
-
-void consoleFormat(String i, char modifier) {
-    switch (modifier) {
-    case 's':
-        consolePuts(i);
-        break;
-    }
-}
-
-void consolePrintfImpl(char const* begin, char const* end) {
-    for (; begin < end; ++begin) {
-        consolePutchar(*begin);
-    }
-}
-
-template <typename T, typename... Args>
-void consolePrintfImpl(char const* begin, char const* end, T const& value, Args const&... args) {
-    for (; begin < end; ++begin) {
-        if (*begin == '%' && begin + 1 < end) {
-            switch (*++begin) {
-            case 'd':
-            case 'h':
-            case 's':
-            case 'c':
-                consoleFormat(value, *begin);
-                consolePrintfImpl(++begin, end, args...);
-                return;
-
-            case '%':
-            default:
-                consolePutchar('%');
-            }
-        }
-        consolePutchar(*begin);
-    }
-}
-
-export template <typename... Args>
-void consolePrintf(String str, Args const&... args) {
-    consolePrintfImpl(str.begin(), str.end(), args...);
 }
 
 } // namespace Kiss::SBI

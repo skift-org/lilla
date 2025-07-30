@@ -1,9 +1,11 @@
+module;
+
+#include <karm-base/base.h>
+#include <karm-logger/logger.h>
+
 export module Kiss.Kernel:memory;
 
-import Kiss.Base;
-import :panic;
-
-extern "C" char __free_ram[], __free_ram_end[];
+[[gnu::aligned(4096)]] static u8 ram[64 * 1024 * 1024] = {}; // 64mib
 
 namespace Kiss::Kernel {
 
@@ -18,17 +20,16 @@ enum Page : u32 {
     U = 1 << 4,
 };
 
-static auto nextPAddr = reinterpret_cast<paddr>(__free_ram);
+static auto nextPAddr = reinterpret_cast<usize>(ram);
 
-export paddr allocPages(u32 n) {
-
-    paddr addr = nextPAddr;
+export usize allocPages(u32 n) {
+    usize addr = nextPAddr;
     nextPAddr += n * PAGE_SIZE;
 
-    if (nextPAddr > reinterpret_cast<paddr>(__free_ram_end))
-        panic("out of memory"s);
+    if (nextPAddr > reinterpret_cast<usize>(ram + sizeof(ram)))
+        logFatal("out of memory"s);
 
-    memset(reinterpret_cast<void*>(addr), 0, n * PAGE_SIZE);
+    std::memset(reinterpret_cast<void*>(addr), 0, n * PAGE_SIZE);
     return addr;
 }
 
@@ -36,12 +37,12 @@ bool isAligned(u32 addr, u32 align) {
     return (addr % align) == 0;
 }
 
-export void mapPage(u32* table1, u32 vAddr, paddr pAddr, u32 flags) {
+export void mapPage(u32* table1, u32 vAddr, usize pAddr, u32 flags) {
     if (!isAligned(vAddr, PAGE_SIZE))
-        panic("unaligned vaddr %h"s, vAddr);
+        logFatal("unaligned vaddr {:#x}"s, vAddr);
 
     if (!isAligned(pAddr, PAGE_SIZE))
-        panic("unaligned paddr %h"s, pAddr);
+        logFatal("unaligned paddr {:#x}"s, pAddr);
 
     u32 vpn1 = (vAddr >> 22) & 0x3ff;
     if ((table1[vpn1] & Page::V) == 0) {

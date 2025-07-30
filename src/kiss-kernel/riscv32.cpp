@@ -1,6 +1,8 @@
-export module Kiss.Kernel:riscv32;
+module;
 
-import Kiss.Base;
+#include <karm-base/base.h>
+
+export module Kiss.Kernel:riscv32;
 
 namespace Kiss::Kernel::Riscv32 {
 

@@ -1,6 +1,0 @@
-{
-    "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.component.v1",
-    "id": "kiss-base",
-    "description": "The kiss base library",
-    "type": "lib"
-}

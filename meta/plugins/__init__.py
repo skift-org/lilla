@@ -1,11 +1,11 @@
 from cutekit import ensure
 
-ensure((0, 8, 0))
+ensure((0, 9, 0))
 
 from cutekit import builder, cli, shell, model
 
 
-@cli.command(None, "boot", "Boot the kernel")
+@cli.command("boot", "Boot the kernel")
 def bootCmd(args: model.RegistryArgs) -> None:
     registry = model.Registry.use(args)
 

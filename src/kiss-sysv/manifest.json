@@ -1,0 +1,14 @@
+{
+    "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.component.v1",
+    "id": "kiss-sysv",
+    "type": "lib",
+    "description": "System V ABI",
+    "enableIf": {
+        "abi": [
+            "sysv"
+        ]
+    },
+    "provides": [
+        "abi"
+    ]
+}

@@ -1,8 +1,10 @@
+module;
+
+#include <karm-logger/logger.h>
+
 export module Kiss.Kernel:exception;
 
-import :panic;
 import :riscv32;
-import Kiss.Base;
 
 namespace Kiss::Kernel {
 
@@ -47,7 +49,9 @@ export extern "C" void _kissHandleTrap(TrapFrame* f) {
     u32 stval = csrr(Riscv32::Csr::STVAL);
     u32 userPc = csrr(Riscv32::Csr::SEPC);
 
-    panic("unexpected trap scause=0x%h, stval=0x%h, sepc=0x%h\n"s, scause, stval, userPc, reinterpret_cast<paddr>(f));
+    debug("bruh");
+
+    logFatal("unexpected trap scause={:#x}, stval={:#x}, sepc={:#x}"s, scause, stval, userPc, reinterpret_cast<usize>(f));
 }
 
 } // namespace Kiss::Kernel

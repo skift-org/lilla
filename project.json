@@ -7,7 +7,15 @@
     "extern": {
         "cute-engineering/cat": {
             "git": "https://github.com/cute-engineering/cat.git",
-            "tag": "v0.8.0"
+            "tag": "v0.10.0"
+        },
+        "skift-org/karm": {
+            "git": "https://github.com/skift-org/karm.git",
+            "tag": "main"
+        },
+        "cute-engineering/ce-runtime": {
+            "git": "https://github.com/cute-engineering/ce-runtime",
+            "tag": "v0.1.0"
         }
     }
 }

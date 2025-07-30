@@ -1,13 +1,16 @@
+module;
+
+#include <karm-logger/logger.h>
+
 export module Kiss.Kernel:process;
 
-import Kiss.Base;
-import :panic;
+import Kiss.SBI;
 import :riscv32;
 import :memory;
 
 namespace Kiss::Kernel {
 
-extern "C" char __kernel_base[], __free_ram_end[];
+extern "C" char __kernel_start[], __kernel_end[];
 
 constexpr u32 PROCS_MAX = 8;
 
@@ -22,7 +25,7 @@ export struct Process {
 
     i32 pid;
     ProcessState state;
-    vaddr sp;
+    usize sp;
     u32* pageTable;
     u32 stack[8192];
 };
@@ -41,7 +44,7 @@ Process* createProcess(u32 pc) {
     }
 
     if (!proc)
-        panic("no free process slots"s);
+        panic("no free process slots");
 
     // Stack callee-saved registers. These register values will be restored in
     // the first context switch in switch_context.
@@ -61,15 +64,15 @@ Process* createProcess(u32 pc) {
     *--sp = pc; // ra
 
     auto pageTable = reinterpret_cast<u32*>(allocPages(1));
-    SBI::consolePrintf("Alloc page 0x%h for process %d\n"s, reinterpret_cast<u32>(pageTable), i+1);
-    for (paddr pAddr = reinterpret_cast<paddr>(__kernel_base);
-         pAddr < reinterpret_cast<paddr>(__free_ram_end); pAddr += PAGE_SIZE)
+    yap("Alloc page {:#x} for process {}\n", reinterpret_cast<u32>(pageTable), i + 1);
+    for (usize pAddr = reinterpret_cast<usize>(__kernel_start);
+         pAddr < reinterpret_cast<usize>(__kernel_end); pAddr += PAGE_SIZE)
         mapPage(pageTable, pAddr, pAddr, Page::R | Page::W | Page::X);
 
     // Initialize fields.
     proc->pid = i + 1;
     proc->state = PROC_RUNNABLE;
-    proc->sp = reinterpret_cast<vaddr>(sp);
+    proc->sp = reinterpret_cast<usize>(sp);
     proc->pageTable = pageTable;
     return proc;
 }

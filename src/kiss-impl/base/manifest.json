@@ -1,16 +1,17 @@
 {
     "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.component.v1",
-    "id": "kiss-kernel",
-    "description": "The kiss kernel",
-    "type": "exe",
+    "id": "impl-hjert.base",
+    "type": "lib",
     "enableIf": {
         "sys": [
             "hjert"
         ]
     },
     "requires": [
-        "karm-logger",
-        "kiss-sbi",
-        "ce-runtime"
+        "abi",
+        "libheap"
+    ],
+    "provides": [
+        "karm-base-impl"
     ]
 }
