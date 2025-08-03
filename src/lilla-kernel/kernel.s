@@ -3,8 +3,8 @@ __stack_top:
 __stack_bottom:
 
 .section .text.boot
-.global _kissEntry
-.type _kissEntry, @function
+.global _lillaEntry
+.type _lillaEntry, @function
 
 .global _kstart
 _kstart:
@@ -12,4 +12,4 @@ _kstart:
     mv fp, zero
 
     la sp, __stack_bottom
-    jal _kissEntry
+    jal _lillaEntry

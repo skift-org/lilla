@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.component.v1",
-    "id": "kiss-kernel",
-    "description": "The kiss kernel",
+    "id": "lilla-kernel",
+    "description": "The lilla kernel",
     "type": "exe",
     "enableIf": {
         "sys": [
@@ -10,7 +10,6 @@
     },
     "requires": [
         "karm-logger",
-        "kiss-sbi",
-        "ce-runtime"
+        "lilla-sbi"
     ]
 }

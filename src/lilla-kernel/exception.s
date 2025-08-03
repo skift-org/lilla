@@ -1,6 +1,6 @@
 .section .text
-.global _kissHandleTrap
-.type _kissHandleTrap, @function
+.global _lillaHandleTrap
+.type _lillaHandleTrap, @function
 .global _kexception
 .align 4
 _kexception:
@@ -44,7 +44,7 @@ _kexception:
     csrw sscratch, a0
 
     mv a0, sp
-    call _kissHandleTrap
+    call _lillaHandleTrap
 
     lw ra,  4 * 0(sp)
     lw gp,  4 * 1(sp)

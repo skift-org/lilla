@@ -1,10 +1,10 @@
-module;
+export module Lilla.SBI:sbi;
 
-#include <karm-base/string.h>
+import Karm.Core;
 
-export module Kiss.SBI:sbi;
+using namespace Karm;
 
-namespace Kiss::SBI {
+namespace Lilla::SBI {
 
 struct Ret {
     long error;
@@ -39,4 +39,4 @@ export void consolePuts(Str str) {
     }
 }
 
-} // namespace Kiss::SBI
+} // namespace Lilla::SBI

@@ -1,6 +1,6 @@
-import Kiss.SBI;
+import Lilla.SBI;
+import Karm.Core;
 
-#include <karm-base/lock.h>
 #include <karm-logger/_embed.h>
 
 namespace Karm::Logger::_Embed {
@@ -18,7 +18,7 @@ void loggerUnlock() {
 struct LoggerOut : Io::TextEncoderBase<> {
     Res<usize> write(Bytes bytes) override {
         for (auto b : bytes)
-            Kiss::SBI::consolePutchar(b);
+            Lilla::SBI::consolePutchar(b);
         return Ok(bytes.len());
     }
 };

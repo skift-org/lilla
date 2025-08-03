@@ -2,11 +2,11 @@ module;
 
 #include <karm-logger/logger.h>
 
-export module Kiss.Kernel:exception;
+export module Lilla.Kernel:exception;
 
 import :riscv32;
 
-namespace Kiss::Kernel {
+namespace Lilla::Kernel {
 
 struct [[gnu::packed]] TrapFrame {
     u32 ra;
@@ -44,7 +44,7 @@ struct [[gnu::packed]] TrapFrame {
 
 export extern "C" void _kexception();
 
-export extern "C" void _kissHandleTrap(TrapFrame* f) {
+export extern "C" void _lillaHandleTrap(TrapFrame* f) {
     u32 scause = csrr(Riscv32::Csr::SCAUSE);
     u32 stval = csrr(Riscv32::Csr::STVAL);
     u32 userPc = csrr(Riscv32::Csr::SEPC);
@@ -54,4 +54,4 @@ export extern "C" void _kissHandleTrap(TrapFrame* f) {
     logFatal("unexpected trap scause={:#x}, stval={:#x}, sepc={:#x}"s, scause, stval, userPc, reinterpret_cast<usize>(f));
 }
 
-} // namespace Kiss::Kernel
+} // namespace Lilla::Kernel

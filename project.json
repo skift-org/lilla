@@ -1,9 +1,9 @@
 {
     "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.project.v1",
-    "id": "kiss-org/kiss",
+    "id": "skift-org/lilla",
     "version": "v0.1.0",
     "type": "project",
-    "description": "Light as a kiss",
+    "description": "The lilla microkernel",
     "extern": {
         "cute-engineering/cat": {
             "git": "https://github.com/cute-engineering/cat.git",
@@ -15,7 +15,7 @@
         },
         "cute-engineering/ce-runtime": {
             "git": "https://github.com/cute-engineering/ce-runtime",
-            "tag": "v0.1.0"
+            "tag": "main"
         }
     }
 }

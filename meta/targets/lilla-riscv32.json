@@ -1,12 +1,12 @@
 {
     "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.target.v1",
-    "id": "kiss-riscv32",
+    "id": "lilla-riscv32",
     "type": "target",
     "props": {
         "toolchain": "clang",
         "arch": "riscv32",
         "bits": "32",
-        "sys": "kiss",
+        "sys": "lilla",
         "abi": "sysv",
         "encoding": "utf8",
         "freestanding": true,
@@ -35,10 +35,10 @@
                 "--target=riscv32",
                 "-nostdlib",
                 "-ffreestanding",
-                "-Wl,-Tmeta/targets/kiss-riscv32.ld"
+                "-Wl,-Tmeta/targets/lilla-riscv32.ld"
             ],
             "files": [
-                "meta/targets/kiss-riscv32.ld"
+                "meta/targets/lilla-riscv32.ld"
             ]
         },
         "ar": {

@@ -1,6 +1,9 @@
 #include <ce-heap/libheap.h>
-#include <karm-base/lock.h>
 #include <karm-logger/logger.h>
+
+import Karm.Core;
+
+using namespace Karm;
 
 // MARK: Kmm Implementation ---------------------------------------------------
 

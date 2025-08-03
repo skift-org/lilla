@@ -1,18 +1,18 @@
 module;
 
-#include <karm-base/base.h>
 #include <karm-logger/logger.h>
 
-export module Kiss.Kernel:main;
+export module Lilla.Kernel:main;
 
-import Kiss.SBI;
+import Karm.Core;
+import Lilla.SBI;
 import :exception;
 import :memory;
 import :process;
 
 extern "C" char __bss_start[], __bss_end[];
 
-namespace Kiss::Kernel {
+namespace Lilla::Kernel {
 
 struct Process;
 
@@ -48,7 +48,7 @@ void stop() {
 }
 
 void entry() {
-    yap("💋 Kiss Kernel v0.0.1");
+    yap("🪻  Lilla Kernel v0.0.1");
 
     csrw(
         Riscv32::Csr::STVEC,
@@ -64,24 +64,24 @@ void entry() {
     unreachable();
 }
 
-} // namespace Kiss::Kernel
+} // namespace Lilla::Kernel
 
 void __panicHandler(PanicKind kind, char const* buf) {
     if (kind == PanicKind::PANIC) {
-        Kiss::SBI::consolePuts("panic: "s);
-        Kiss::SBI::consolePuts(buf);
-        Kiss::SBI::consolePuts("\n");
-        Kiss::Kernel::stop();
+        Lilla::SBI::consolePuts("panic: "s);
+        Lilla::SBI::consolePuts(buf);
+        Lilla::SBI::consolePuts("\n");
+        Lilla::Kernel::stop();
         __builtin_unreachable();
     } else {
-        Kiss::SBI::consolePuts("debug: "s);
-        Kiss::SBI::consolePuts(buf);
-        Kiss::SBI::consolePuts("\n");
+        Lilla::SBI::consolePuts("debug: "s);
+        Lilla::SBI::consolePuts(buf);
+        Lilla::SBI::consolePuts("\n");
     }
 }
 
-extern "C" void _kissEntry() {
+extern "C" void _lillaEntry() {
     std::memset(__bss_start, 0, reinterpret_cast<usize>(__bss_end) - reinterpret_cast<usize>(__bss_start));
     Karm::registerPanicHandler(__panicHandler);
-    Kiss::Kernel::entry();
+    Lilla::Kernel::entry();
 }

@@ -2,13 +2,13 @@ module;
 
 #include <karm-logger/logger.h>
 
-export module Kiss.Kernel:process;
+export module Lilla.Kernel:process;
 
-import Kiss.SBI;
+import Lilla.SBI;
 import :riscv32;
 import :memory;
 
-namespace Kiss::Kernel {
+namespace Lilla::Kernel {
 
 extern "C" char __kernel_start[], __kernel_end[];
 
@@ -64,7 +64,7 @@ Process* createProcess(u32 pc) {
     *--sp = pc; // ra
 
     auto pageTable = reinterpret_cast<u32*>(allocPages(1));
-    yap("Alloc page {:#x} for process {}\n", reinterpret_cast<u32>(pageTable), i + 1);
+    yap("Alloc page {:#x} for process {}", reinterpret_cast<u32>(pageTable), i + 1);
     for (usize pAddr = reinterpret_cast<usize>(__kernel_start);
          pAddr < reinterpret_cast<usize>(__kernel_end); pAddr += PAGE_SIZE)
         mapPage(pageTable, pAddr, pAddr, Page::R | Page::W | Page::X);
@@ -111,4 +111,4 @@ export void initProcess() {
     currentProc = idleProc;
 }
 
-} // namespace Kiss::Kernel
+} // namespace Lilla::Kernel

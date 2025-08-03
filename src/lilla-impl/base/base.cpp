@@ -1,3 +1,5 @@
+module Karm.Core;
+
 namespace Karm::_Embed {
 
 void relaxe() {  }

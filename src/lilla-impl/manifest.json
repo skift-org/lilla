@@ -1,17 +1,17 @@
 {
     "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.component.v1",
-    "id": "impl-hjert.base",
+    "id": "lilla-impl",
     "type": "lib",
+    "description": "Karm platform embedding layer for lilla.",
     "enableIf": {
         "sys": [
             "hjert"
         ]
     },
     "requires": [
-        "abi",
-        "libheap"
+        "lilla-sbi"
     ],
     "provides": [
-        "karm-base-impl"
+        "karm-logger-impl"
     ]
 }

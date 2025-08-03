@@ -1,9 +1,9 @@
 {
     "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.component.v1",
-    "id": "kiss-ini",
-    "description": "The kiss init",
+    "id": "lilla-ini",
+    "description": "The lilla init",
     "type": "exe",
     "requires": [
-        "kiss-base"
+        "lilla-base"
     ]
 }

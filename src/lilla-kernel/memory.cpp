@@ -1,13 +1,16 @@
 module;
 
-#include <karm-base/base.h>
 #include <karm-logger/logger.h>
 
-export module Kiss.Kernel:memory;
+export module Lilla.Kernel:memory;
+
+import Karm.Core;
+
+using namespace Karm;
 
 [[gnu::aligned(4096)]] static u8 ram[64 * 1024 * 1024] = {}; // 64mib
 
-namespace Kiss::Kernel {
+namespace Lilla::Kernel {
 
 constexpr u32 SATP_SV32 = 1u << 31;
 constexpr usize PAGE_SIZE = 4096;
@@ -56,4 +59,4 @@ export void mapPage(u32* table1, u32 vAddr, usize pAddr, u32 flags) {
     auto table0 = reinterpret_cast<u32*>((table1[vpn1] >> 10) * PAGE_SIZE);
     table0[vpn0] = ((pAddr / PAGE_SIZE) << 10) | flags | Page::V;
 }
-} // namespace Kiss::Kernel
+} // namespace Lilla::Kernel

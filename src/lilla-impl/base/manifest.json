@@ -1,17 +1,19 @@
 {
     "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.component.v1",
-    "id": "kiss-impl",
+    "id": "impl-hjert.base",
     "type": "lib",
-    "description": "Karm platform embedding layer for kiss.",
     "enableIf": {
         "sys": [
             "hjert"
         ]
     },
-    "requires" : [
-        "kiss-sbi"
+    "requires": [
+        "abi",
+        "libheap",
+        "stdc-ansi",
+        "ce-runtime"
     ],
     "provides": [
-        "karm-logger-impl"
+        "karm-base-impl"
     ]
 }

@@ -1,9 +1,9 @@
 {
     "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.component.v1",
-    "id": "kiss-sbi",
-    "description": "The kiss sbi bridge",
+    "id": "lilla-sbi",
+    "description": "The lilla sbi bridge",
     "type": "lib",
-    "requires" : [
-        "karm-base"
+    "requires": [
+        "karm-core"
     ]
 }

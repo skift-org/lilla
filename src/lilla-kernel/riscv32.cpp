@@ -1,10 +1,10 @@
-module;
+export module Lilla.Kernel:riscv32;
 
-#include <karm-base/base.h>
+import Karm.Core;
 
-export module Kiss.Kernel:riscv32;
+using namespace Karm;
 
-namespace Kiss::Kernel::Riscv32 {
+namespace Lilla::Kernel::Riscv32 {
 
 export enum struct Csr : usize {
 #define CSR(NUM, _, NAME) NAME = NUM,
@@ -48,4 +48,4 @@ export void ei() { __asm__ __volatile__("csrsi mstatus, 8"); }
 
 export void sfenceVma() { __asm__ __volatile__("sfence.vma"); }
 
-} // namespace Kiss::Kernel::Asm
+} // namespace Lilla::Kernel::Asm

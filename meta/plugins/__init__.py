@@ -12,7 +12,7 @@ def bootCmd(args: model.RegistryArgs) -> None:
     target = registry.lookup("kernel-riscv32", model.Target)
     assert target is not None
 
-    component = registry.lookup("kiss-kernel", model.Component)
+    component = registry.lookup("lilla-kernel", model.Component)
     assert component is not None
 
     scope = builder.TargetScope(registry, target)

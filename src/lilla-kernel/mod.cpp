@@ -1,4 +1,4 @@
-export module Kiss.Kernel;
+export module Lilla.Kernel;
 
 export import :exception;
 export import :riscv32;
